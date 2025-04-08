@@ -1,8 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
-from app.api.routes import user
-
+from app.api.routes import user, transaction
 
 
 
@@ -11,7 +10,6 @@ app = FastAPI(
     openapi_url=f"{settings.API_V1_STR}/openapi.json"
 )
 
-# Set up CORS
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.BACKEND_CORS_ORIGINS,
@@ -20,12 +18,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Include routers here
-# from app.api.v1 import users
-# app.include_router(users.router, prefix=settings.API_V1_STR)
-
-
-
 app.include_router(user.router, prefix=settings.API_V1_STR, tags=["users"])
+app.include_router(transaction.router, prefix=settings.API_V1_STR, tags=["transactions"])
 
 
